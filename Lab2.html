@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title>Hello, world!</title>
 	</head>
@@ -40,37 +41,43 @@
     				var src = document.getElementById("results");
 					
 					var pkmCard = document.createElement("div");
-					pkmName.setAttribute("class", "card");
-					
-    				
+					pkmCard.setAttribute("class", "card mb-3");
+					pkmCard.setAttribute("style", "width: 18rem;");
 
     				var pkmImg = document.createElement("img");
     				pkmImg.src = pokemonObj.sprites.front_default;
 					pkmImg.setAttribute("class", "card-img-top");
-					pkmImg.setAttribute("alt", pkmName);
-    				src.appendChild(pkmImg);
+					pkmImg.alt = pokemonObj.name;
+    				pkmCard.appendChild(pkmImg);
 					
-					var pkmCard = document.createElement("div");
-					pkmName.setAttribute("class", "card");
+					var pkmCardSub1 = document.createElement("div");
+					pkmCardSub1.setAttribute("class","card-body");
+					pkmCard.appendChild(pkmCardSub1);
 					
-					var pkmName = document.createElement("p");
-    				pkmName.innerText = "Pokemon Name: " + pokemonObj.name;
-    				src.appendChild(pkmName);
+					var cardHeader = document.createElement("h5");
+					cardHeader.setAttribute("class", "card-title");
+					cardHeader.innerText = "Pokemon Name: " + pokemonObj.name;
+	  				pkmCardSub1.appendChild(cardHeader);
 
-    				var pkmNom = document.createElement("p");
-    				pkmNom.innerText = "PokeDex number: " + pokemonObj.id;
-    				src.appendChild(pkmNom);
+					var cardList = document.createElement("ul");
+					cardList.setAttribute("class","list-group list-group-flush");
+					pkmCard.appendChild(cardList);
+					
+					var cardListPkmId = document.createElement("il");
+					cardListPkmId.setAttribute("class", "list-group-item");
+					cardListPkmId.innerText = "PokeDex number: " + pokemonObj.id;
+    				cardList.appendChild(cardListPkmId);
+					
+					var cardListPkmType = document.createElement("il");
+					cardListPkmType.setAttribute("class", "list-group-item");
+					cardListPkmType.innerText = "Pokemon Type: " + pokemonObj.types[0].type.name;
+					cardList.appendChild(cardListPkmType);
+					
+    				src.appendChild(pkmCard);
 
-    				var pkmType = document.createElement("p");
-    				pkmType.innerText = "Pokemon Type: " + pokemonObj.types[0].type.name;
-    				src.appendChild(pkmType);
-
-    				
-
-    			}
-    			if(this.readyState == 4 && this.status == 404) {
-
-    			}
+    			}else if(this.readyState == 4 && this.status == 404){
+					alert(`Pokemon does not exist!`);
+				}
 
     		}
     		ajaxRequest.open("GET", url,true);
