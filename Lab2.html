@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Hello, world!</title>
+	</head>
+  <body>
+  	<form>
+  		Pokemon Name: <input type = "text" id="txtName"/> <br>
+		<input type ="submit" value = "Send Request">
+  	</form>
+
+    <h2>Current elements</h2>
+    <div id="results"></div>
+
+    <script>
+
+    	var theForm = document.querySelector("form");
+    	var txtName = document.getElementById("txtName");
+    	var results = document.getElementById("results");
+    	const prefixUrl = "http://pokeapi.co/api/v2/pokemon/"
+    	theForm.onsubmit = (event) => {
+    		event.preventDefault();
+    		let url = prefixUrl + txtName.value;
+    		console.log(url);
+
+    		var ajaxRequest = new XMLHttpRequest();
+    		//4 = DONE, 200 =OK
+    		ajaxRequest.onreadystatechange = function() {
+    			if(this.readyState == 4 && this.status == 200) {
+    				var pokemonData = this.responseText;
+    				var pokemonObj = JSON.parse(pokemonData);
+
+    				//debugger
+    				var src = document.getElementById("results");
+					
+					var pkmCard = document.createElement("div");
+					pkmName.setAttribute("class", "card");
+					
+    				
+
+    				var pkmImg = document.createElement("img");
+    				pkmImg.src = pokemonObj.sprites.front_default;
+					pkmImg.setAttribute("class", "card-img-top");
+					pkmImg.setAttribute("alt", pkmName);
+    				src.appendChild(pkmImg);
+					
+					var pkmCard = document.createElement("div");
+					pkmName.setAttribute("class", "card");
+					
+					var pkmName = document.createElement("p");
+    				pkmName.innerText = "Pokemon Name: " + pokemonObj.name;
+    				src.appendChild(pkmName);
+
+    				var pkmNom = document.createElement("p");
+    				pkmNom.innerText = "PokeDex number: " + pokemonObj.id;
+    				src.appendChild(pkmNom);
+
+    				var pkmType = document.createElement("p");
+    				pkmType.innerText = "Pokemon Type: " + pokemonObj.types[0].type.name;
+    				src.appendChild(pkmType);
+
+    				
+
+    			}
+    			if(this.readyState == 4 && this.status == 404) {
+
+    			}
+
+    		}
+    		ajaxRequest.open("GET", url,true);
+    		ajaxRequest.send();
+    	};
+    </script>
+  </body>
+</html>
